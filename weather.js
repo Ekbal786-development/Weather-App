@@ -3,6 +3,9 @@ const apiUrl =
   "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
 const geoApiUrl =
   "https://api.openweathermap.org/data/2.5/weather?units=metric";
+const forecastApiUrl =
+  "https://api.openweathermap.org/data/2.5/forecast?units=metric";
+
 
 
 // DOM elements
@@ -20,6 +23,9 @@ const feelsLikeEl = document.querySelector(".feels-like");
 const descriptionEl = document.querySelector(".description");
 const loader = document.getElementById("loader");
 const retryBtn = document.getElementById("retry-btn");
+const hourlyList = document.getElementById("hourly-list");
+const dailyList = document.getElementById("daily-list");
+
 
 
 async function fetchWeather(city) {
@@ -74,6 +80,69 @@ async function fetchWeatherByCoords(lat, lon) {
   }
 }
 
+async function fetchForecast(city) {
+  try {
+    const response = await fetch(
+      `${forecastApiUrl}&q=${city}&appid=${apiKey}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Forecast fetch failed");
+    }
+
+    const data = await response.json();
+
+    renderHourlyForecast(data.list.slice(0, 8));
+    renderDailyForecast(data.list);
+  } catch (error) {
+    hourlyList.innerHTML = "<p>Unable to load hourly forecast.</p>";
+    dailyList.innerHTML = "<p>Unable to load 5-day forecast.</p>";
+  }
+}
+
+function renderHourlyForecast(hours) {
+  hourlyList.innerHTML = "";
+
+  hours.forEach(hour => {
+    const time = new Date(hour.dt * 1000).getHours();
+    const temp = Math.round(hour.main.temp);
+    const icon = hour.weather[0].icon;
+
+    hourlyList.innerHTML += `
+      <div class="hourly-item">
+        <div>${time}:00</div>
+        <img src="https://openweathermap.org/img/wn/${icon}.png" />
+        <span>${temp}°</span>
+      </div>
+    `;
+  });
+}
+
+function renderDailyForecast(list) {
+  dailyList.innerHTML = "";
+
+  const dailyData = list
+    .filter(item => item.dt_txt.includes("12:00:00"))
+    .slice(0, 5);
+
+  dailyData.forEach(day => {
+    const date = new Date(day.dt * 1000);
+    const dayName = date.toLocaleDateString("en-US", {
+      weekday: "short",
+    });
+    const temp = Math.round(day.main.temp);
+    const icon = day.weather[0].icon;
+
+    dailyList.innerHTML += `
+      <div class="daily-item">
+        <div>${dayName}</div>
+        <img src="https://openweathermap.org/img/wn/${icon}.png" />
+        <span>${temp}°</span>
+      </div>
+    `;
+  });
+}
+
 function updateUI(data) {
   localStorage.setItem("lastCity", data.name);
 
@@ -112,6 +181,7 @@ function updateUI(data) {
     default:
       weatherIcon.src = "images/clouds.png";
   }
+  fetchForecast(data.name);
 }
 
 form.addEventListener("submit", (event) => {
