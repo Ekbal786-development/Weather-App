@@ -1,7 +1,7 @@
 const apiKey = "9875418c53111d9be26588a1aaf09eb1";
 const apiUrl =
   "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
-  const geoApiUrl =
+const geoApiUrl =
   "https://api.openweathermap.org/data/2.5/weather?units=metric";
 
 
@@ -75,7 +75,8 @@ async function fetchWeatherByCoords(lat, lon) {
 }
 
 function updateUI(data) {
-  localStorage.setItem("lastCity", city);
+  localStorage.setItem("lastCity", data.name);
+
   statusMessage.textContent = "";
   weatherBox.style.display = "block";
 
@@ -84,7 +85,7 @@ function updateUI(data) {
   feelsLikeEl.textContent =
   `Feels like ${Math.round(data.main.feels_like)}°C`;
 
-descriptionEl.textContent =
+  descriptionEl.textContent =
   data.weather[0].description;
 
   humidityEl.textContent = `${data.main.humidity}%`;
@@ -157,9 +158,10 @@ function detectUserLocation() {
 
 const lastCity = localStorage.getItem("lastCity");
 
-if (lastCity) {
+if (lastCity && lastCity.trim().length > 0) {
   fetchWeather(lastCity);
 } else {
   detectUserLocation();
 }
+
 
