@@ -151,23 +151,58 @@ body {
 
 .details {
   display: flex;
-  justify-content: space-between;
-  gap: 10px;
+  flex-direction: column;
+  gap: 16px;              /* clear spacing between cards */
+  margin-top: 24px;
+  align-items: center;    /* center cards */
 }
 
 .col {
   display: flex;
   align-items: center;
-  gap: 10px;
-  background: #f3f4f6;
-  border-radius: 12px;
-  padding: 10px;
-  flex: 1;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 14px;
+  padding: 14px 16px;
+  width: 100%;
+  max-width: 320px;       /* prevents overly wide cards */
+  box-sizing: border-box;
 }
+
+.col .icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.col p {
+  font-size: 15px;
+}
+
+.col span {
+  font-size: 13px;
+  opacity: 0.8;
+}
+
+
+.icon {
+  font-size: 22px;
+}
+
 
 .col img {
   width: 28px;
+  filter: brightness(0) saturate(100%);
 }
+
+/* ===============================
+   DETAILS ICONS (LIGHT MODE)
+================================ */
+
+.col img {
+  filter: none;          /* Reset any inherited filters */
+  opacity: 1;
+}
+
 
 .col p {
   font-weight: 600;
@@ -202,6 +237,9 @@ body {
 
   .details {
     flex-direction: column;
+  }
+  .col {
+    width: 100%;
   }
 }
 
@@ -361,5 +399,8 @@ body.night .col span {
 
 body.night .col img {
   filter: brightness(0.9) contrast(0.9);
+}
+body.night .col img {
+  filter: brightness(0) saturate(100%) invert(1);
 }
 
