@@ -75,6 +75,7 @@ async function fetchWeatherByCoords(lat, lon) {
 }
 
 function updateUI(data) {
+  localStorage.setItem("lastCity", city);
   statusMessage.textContent = "";
   weatherBox.style.display = "block";
 
@@ -123,6 +124,7 @@ form.addEventListener("submit", (event) => {
     return;
   }
 
+  localStorage.setItem("lastCity", city);
   fetchWeather(city);
 });
 
@@ -152,4 +154,12 @@ function detectUserLocation() {
     }
   );
 }
-detectUserLocation();
+
+const lastCity = localStorage.getItem("lastCity");
+
+if (lastCity) {
+  fetchWeather(lastCity);
+} else {
+  detectUserLocation();
+}
+
