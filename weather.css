@@ -246,3 +246,120 @@ body {
 .retry-btn:hover {
   opacity: 0.9;
 }
+
+/* ===============================
+   SUNRISE & SUNSET
+================================ */
+
+.sun-times {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 14px;
+  padding: 10px;
+  background: #f3f4f6;
+  border-radius: 12px;
+  font-size: 14px;
+}
+
+.sun {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 500;
+}
+
+/* ===============================
+   DAY / NIGHT THEMES
+================================ */
+
+body.day {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+body.night {
+  background: linear-gradient(135deg, #0f172a, #020617);
+}
+
+body.night .card,
+body.night .hourly,
+body.night .daily {
+  background: #020617;
+  color: #e5e7eb;
+}
+
+body.night .hourly-item,
+body.night .daily-item,
+body.night .sun-times {
+  background: #020617;
+  border: 1px solid #1e293b;
+}
+
+body.night h1,
+body.night h2,
+body.night h3,
+body.night h4 {
+  color: #f8fafc;
+}
+
+body.night p,
+body.night span {
+  color: #cbd5f5;
+}
+
+/* ===============================
+   DARK MODE READABILITY FIX
+================================ */
+
+body.night .details p,
+body.night .details span,
+body.night .humidity,
+body.night .wind {
+  color: #e5e7eb;
+}
+
+body.night .details img {
+  filter: brightness(0.9);
+}
+
+/* ===============================
+   NIGHT MODE DETAILS FIX
+================================ */
+
+body.night .details {
+  background: #020617;
+  border-radius: 12px;
+  padding: 12px;
+  margin-top: 14px;
+}
+
+body.night .details p,
+body.night .details span {
+  color: #f8fafc !important;
+  font-weight: 500;
+}
+
+body.night .details img {
+  filter: brightness(0.85) contrast(0.9);
+}
+
+/* ===============================
+   NIGHT MODE FIX — DETAILS CARDS
+================================ */
+
+body.night .col {
+  background: #020617;       /* Dark card */
+  border: 1px solid #1e293b; /* Subtle outline */
+}
+
+body.night .col p {
+  color: #f8fafc;            /* Bright readable value */
+}
+
+body.night .col span {
+  color: #cbd5f5;            /* Softer label */
+}
+
+body.night .col img {
+  filter: brightness(0.9) contrast(0.9);
+}
+

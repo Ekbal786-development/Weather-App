@@ -25,6 +25,9 @@ const loader = document.getElementById("loader");
 const retryBtn = document.getElementById("retry-btn");
 const hourlyList = document.getElementById("hourly-list");
 const dailyList = document.getElementById("daily-list");
+const sunriseEl = document.getElementById("sunrise");
+const sunsetEl = document.getElementById("sunset");
+
 
 
 
@@ -144,6 +147,19 @@ function renderDailyForecast(list) {
 }
 
 function updateUI(data) {
+  // ----- DAY / NIGHT DETECTION -----
+const currentTime = data.dt;
+const sunrise = data.sys.sunrise;
+const sunset = data.sys.sunset;
+
+document.body.classList.remove("day", "night");
+
+if (currentTime >= sunrise && currentTime < sunset) {
+  document.body.classList.add("day");
+} else {
+  document.body.classList.add("night");
+}
+
   localStorage.setItem("lastCity", data.name);
 
   statusMessage.textContent = "";
@@ -160,27 +176,23 @@ function updateUI(data) {
   humidityEl.textContent = `${data.main.humidity}%`;
   windEl.textContent = `${data.wind.speed} km/h`;
 
-  const condition = data.weather[0].main;
+  const sunriseTime = new Date(data.sys.sunrise * 1000).toLocaleTimeString(
+  [],
+  { hour: "2-digit", minute: "2-digit" }
+);
 
-  switch (condition) {
-    case "Clouds":
-      weatherIcon.src = "images/clouds.png";
-      break;
-    case "Clear":
-      weatherIcon.src = "images/clear.png";
-      break;
-    case "Rain":
-      weatherIcon.src = "images/rain.png";
-      break;
-    case "Drizzle":
-      weatherIcon.src = "images/drizzle.png";
-      break;
-    case "Mist":
-      weatherIcon.src = "images/mist.png";
-      break;
-    default:
-      weatherIcon.src = "images/clouds.png";
-  }
+const sunsetTime = new Date(data.sys.sunset * 1000).toLocaleTimeString(
+  [],
+  { hour: "2-digit", minute: "2-digit" }
+);
+
+sunriseEl.textContent = sunriseTime;
+sunsetEl.textContent = sunsetTime;
+
+const iconCode = data.weather[0].icon;
+weatherIcon.src = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+
+  
   fetchForecast(data.name);
 }
 
