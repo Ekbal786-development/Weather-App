@@ -131,6 +131,20 @@ body {
   margin-bottom: 16px;
 }
 
+.feels-like {
+  font-size: 14px;
+  margin-top: 4px;
+  color: #374151;
+}
+
+.description {
+  font-size: 14px;
+  margin-top: 2px;
+  color: #6b7280;
+  text-transform: capitalize;
+}
+
+
 /* ===============================
    DETAILS
 ================================ */

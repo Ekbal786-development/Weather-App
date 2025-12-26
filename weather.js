@@ -13,6 +13,8 @@ const tempEl = document.querySelector(".temp");
 const cityEl = document.querySelector(".city");
 const humidityEl = document.querySelector(".humidity");
 const windEl = document.querySelector(".wind");
+const feelsLikeEl = document.querySelector(".feels-like");
+const descriptionEl = document.querySelector(".description");
 const loader = document.getElementById("loader");
 const retryBtn = document.getElementById("retry-btn");
 
@@ -48,6 +50,12 @@ function updateUI(data) {
 
   cityEl.textContent = data.name;
   tempEl.textContent = `${Math.round(data.main.temp)}°C`;
+  feelsLikeEl.textContent =
+  `Feels like ${Math.round(data.main.feels_like)}°C`;
+
+descriptionEl.textContent =
+  data.weather[0].description;
+
   humidityEl.textContent = `${data.main.humidity}%`;
   windEl.textContent = `${data.wind.speed} km/h`;
 
