@@ -1,8 +1,3 @@
-/* ===============================
-   WEATHER APP - MAIN SCRIPT
-   Built by Ekbal Shah
-================================ */
-
 const apiKey = "9875418c53111d9be26588a1aaf09eb1";
 const apiUrl =
   "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
@@ -18,21 +13,19 @@ const tempEl = document.querySelector(".temp");
 const cityEl = document.querySelector(".city");
 const humidityEl = document.querySelector(".humidity");
 const windEl = document.querySelector(".wind");
+const loader = document.getElementById("loader");
+const retryBtn = document.getElementById("retry-btn");
 
-/* ===============================
-   FETCH WEATHER DATA
-================================ */
 
 async function fetchWeather(city) {
   try {
-    // Show loading state
-    statusMessage.textContent = "Fetching weather data...";
-    statusMessage.style.color = "#555";
+    statusMessage.textContent = "";
+    retryBtn.style.display = "none";
+    loader.style.display = "block";
     weatherBox.style.display = "none";
 
     const response = await fetch(`${apiUrl}${city}&appid=${apiKey}`);
 
-    // Handle invalid city or API error
     if (!response.ok) {
       throw new Error("City not found");
     }
@@ -40,14 +33,14 @@ async function fetchWeather(city) {
     const data = await response.json();
     updateUI(data);
   } catch (error) {
-    statusMessage.textContent = "❌ City not found. Please try again.";
+    statusMessage.textContent =
+      "❌ Unable to fetch weather. Please try again.";
     statusMessage.style.color = "crimson";
+    retryBtn.style.display = "block";
+  } finally {
+    loader.style.display = "none";
   }
 }
-
-/* ===============================
-   UPDATE UI
-================================ */
 
 function updateUI(data) {
   statusMessage.textContent = "";
@@ -81,10 +74,6 @@ function updateUI(data) {
   }
 }
 
-/* ===============================
-   FORM HANDLING
-================================ */
-
 form.addEventListener("submit", (event) => {
   event.preventDefault();
 
@@ -97,4 +86,12 @@ form.addEventListener("submit", (event) => {
   }
 
   fetchWeather(city);
+});
+
+
+retryBtn.addEventListener("click", () => {
+  const city = cityInput.value.trim();
+  if (city) {
+    fetchWeather(city);
+  }
 });

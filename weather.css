@@ -190,3 +190,45 @@ body {
     flex-direction: column;
   }
 }
+
+/* ===============================
+   LOADING SPINNER
+================================ */
+
+.loader {
+  display: none;
+  margin: 12px auto;
+  width: 36px;
+  height: 36px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #4facfe;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ===============================
+   RETRY BUTTON
+================================ */
+
+.retry-btn {
+  display: none;
+  width: 100%;
+  margin-top: 10px;
+  padding: 10px;
+  background: #ef4444;
+  color: #ffffff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.retry-btn:hover {
+  opacity: 0.9;
+}

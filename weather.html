@@ -1,71 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Weather App | Ekbal Shah</title>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather App | Ekbal Shah</title>
 
-  <link rel="stylesheet" href="weather.css" />
-</head>
-<body>
+    <link rel="stylesheet" href="weather.css" />
+  </head>
+  <body>
+    <main class="app">
+      <header class="app-header">
+        <h1>🌦 Weather App</h1>
+        <p>Search any city to get real-time weather updates</p>
+      </header>
 
-  <main class="app">
+      <section class="card">
+        <form class="search" id="weather-form">
+          <input
+            type="text"
+            id="city-input"
+            placeholder="Enter city name"
+            spellcheck="false"
+            required
+          />
+          <button type="submit" aria-label="Search weather">
+            <img src="images/search.png" alt="Search" />
+          </button>
+        </form>
 
-    <header class="app-header">
-      <h1>🌦 Weather App</h1>
-      <p>Search any city to get real-time weather updates</p>
-    </header>
+        <p class="status-message" id="status-message"></p>
 
-    <section class="card">
+        <div class="loader" id="loader"></div>
 
-      <form class="search" id="weather-form">
-        <input
-          type="text"
-          id="city-input"
-          placeholder="Enter city name"
-          spellcheck="false"
-          required
-        />
-        <button type="submit" aria-label="Search weather">
-          <img src="images/search.png" alt="Search" />
-        </button>
-      </form>
+        <button class="retry-btn" id="retry-btn" type="button">Retry</button>
 
-      <p class="status-message" id="status-message"></p>
+        <div class="weather" id="weather-result">
+          <img src="images/rain.png" alt="Weather icon" class="weather-icon" />
 
-      <div class="weather" id="weather-result">
-        <img src="images/rain.png" alt="Weather icon" class="weather-icon" />
+          <h2 class="temp">--°C</h2>
+          <h3 class="city">City</h3>
 
-        <h2 class="temp">--°C</h2>
-        <h3 class="city">City</h3>
-
-        <div class="details">
-          <div class="col">
-            <img src="images/humidity.png" alt="Humidity" />
-            <div>
-              <p class="humidity">--%</p>
-              <span>Humidity</span>
+          <div class="details">
+            <div class="col">
+              <img src="images/humidity.png" alt="Humidity" />
+              <div>
+                <p class="humidity">--%</p>
+                <span>Humidity</span>
+              </div>
             </div>
-          </div>
 
-          <div class="col">
-            <img src="images/wind.png" alt="Wind speed" />
-            <div>
-              <p class="wind">-- km/h</p>
-              <span>Wind Speed</span>
+            <div class="col">
+              <img src="images/wind.png" alt="Wind speed" />
+              <div>
+                <p class="wind">-- km/h</p>
+                <span>Wind Speed</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
 
-    </section>
+      <footer class="app-footer">
+        <p>Built using HTML, CSS, JavaScript & OpenWeather API</p>
+      </footer>
+    </main>
 
-    <footer class="app-footer">
-      <p>Built using HTML, CSS, JavaScript & OpenWeather API</p>
-    </footer>
-
-  </main>
-
-  <script src="weather.js"></script>
-</body>
+    <script src="weather.js"></script>
+  </body>
 </html>
