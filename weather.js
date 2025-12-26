@@ -1,6 +1,9 @@
 const apiKey = "9875418c53111d9be26588a1aaf09eb1";
 const apiUrl =
   "https://api.openweathermap.org/data/2.5/weather?units=metric&q=";
+  const geoApiUrl =
+  "https://api.openweathermap.org/data/2.5/weather?units=metric";
+
 
 // DOM elements
 const form = document.getElementById("weather-form");
@@ -39,6 +42,33 @@ async function fetchWeather(city) {
       "❌ Unable to fetch weather. Please try again.";
     statusMessage.style.color = "crimson";
     retryBtn.style.display = "block";
+  } finally {
+    loader.style.display = "none";
+  }
+}
+
+async function fetchWeatherByCoords(lat, lon) {
+  try {
+    statusMessage.textContent = "Detecting your location...";
+    statusMessage.style.color = "#555";
+    retryBtn.style.display = "none";
+    loader.style.display = "block";
+    weatherBox.style.display = "none";
+
+    const response = await fetch(
+      `${geoApiUrl}&lat=${lat}&lon=${lon}&appid=${apiKey}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Location weather failed");
+    }
+
+    const data = await response.json();
+    updateUI(data);
+  } catch (error) {
+    statusMessage.textContent =
+      "Unable to detect location. Please search manually.";
+    statusMessage.style.color = "crimson";
   } finally {
     loader.style.display = "none";
   }
@@ -103,3 +133,23 @@ retryBtn.addEventListener("click", () => {
     fetchWeather(city);
   }
 });
+
+function detectUserLocation() {
+  if (!navigator.geolocation) {
+    statusMessage.textContent =
+      "Geolocation is not supported by your browser.";
+    return;
+  }
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      const { latitude, longitude } = position.coords;
+      fetchWeatherByCoords(latitude, longitude);
+    },
+    () => {
+      statusMessage.textContent =
+        "Location permission denied. Please search manually.";
+    }
+  );
+}
+detectUserLocation();
